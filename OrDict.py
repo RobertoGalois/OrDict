@@ -1,6 +1,9 @@
 #!/usr/bin/python3.7
 # -*-coding:utf-8 -*
 
+def newRange(pStart, pSteps):
+	return range(pStart, pStart + pSteps)
+
 class OrDictIterator:
 	def __init__(self, obj):
 		if (type(obj == type(OrDict()))):
@@ -18,19 +21,18 @@ class OrDictIterator:
 		return (self.obj.items()[self.pos - 1])
 
 
-
 class OrDict:
 
 	#We can give in arg any container object that has .keys() and .values() methods returning a list castable object
 	def __init__(self, pDict={}, **pPattern):
 		if (pPattern is not None):
-			self._dKeys = list(pPattern.keys())
+			self._dKeys = list(zip(pPattern.keys(), range(0, len(pPattern.keys()))))
 			self._dValues = list(pPattern.values())
 		else:
 			self._dKeys = []
 			self._dValues = []
 
-		self._dKeys.extend(list(pDict.keys()))
+		self._dKeys.extend(list(zip(pDict.keys(), newRange(len(self._dKeys), len(pDict.keys())))))
 		self._dValues.extend(list(pDict.values()))
 
 	#---------------------------
@@ -41,7 +43,8 @@ class OrDict:
 		return self._dKeys
 
 	def keys(self):
-		return list(self.dKeys)
+#		return list(self.dKeys)
+		return [ x[0] for x in self._dKeys]
 
 	@dKeys.setter
 	def dKeys(self, value):
@@ -97,6 +100,6 @@ class OrDict:
 
 
 o = OrDict({'test': 'caca', 'addr': 'chezy'}, moi=42, toi=24)
-o2 = OrDict({'salut': 'toi', 44: 35})
 
-print(('test', 'caca') in o)
+print(o.keys())
+print(o.dKeys)
