@@ -1,6 +1,10 @@
 #!/usr/bin/python3.7
 # -*-coding:utf-8 -*
 
+#reste à faire:
+#- faire le 'bidule' in o
+#- revoir TOUS les objectifs !
+
 def newRange(pStart, pSteps):
 	return range(pStart, pStart + pSteps)
 
@@ -43,7 +47,6 @@ class OrDict:
 		return self._dKeys
 
 	def keys(self):
-#		return list(self.dKeys)
 		return [ x[0] for x in self._dKeys]
 
 	@dKeys.setter
@@ -65,7 +68,9 @@ class OrDict:
 	def dValues(self, value):
 		raise AttributeError('You are not allowed to modify the values this way')
 
-	#--Items management
+	#-----------------------------
+	#--[self.items()] MANAGEMENT |
+	#-----------------------------
 	def __getitem__(self, pKey):
 		try:
 			return self._dValues[self._dKeys.index(pKey)]
@@ -73,7 +78,7 @@ class OrDict:
 			raise ValueError("'{0}' is not in OrDict".format(pKey))
 
 	def items(self):
-		return list(zip(self._dKeys, self._dValues))
+		return list(zip(self.keys(), self._dValues))
 
 	#--------------------------------
 	#--__specialsMeths__ MANAGEMENT |
@@ -88,7 +93,7 @@ class OrDict:
 	def __add__(self, other):
 		if (type(other) == type(self)):
 			ret = OrDict(self)
-			ret._dKeys.extend(other.keys())
+			ret._dKeys.extend(list(zip(other.keys(), newRange(len(ret._dKeys), len(other.keys())))))
 			ret._dValues.extend(other.values())
 		else:
 			raise TypeError('Can only add OrDict with another OrDict')
@@ -99,7 +104,11 @@ class OrDict:
 		return OrDictIterator(self)
 
 
-o = OrDict({'test': 'caca', 'addr': 'chezy'}, moi=42, toi=24)
+o = OrDict({'test': 'caca', 'addr': 'chezy', 54: 'cinquante-quatre'}, moi=42, toi=24)
+o2 = OrDict({'salut' : 'toi', 'comment tu' : 'vas ?'})
+o3 = o + o2
 
-print(o.keys())
-print(o.dKeys)
+print(o3)
+print(o3.dKeys)
+print(o3.dValues)
+print(o3['salut'])
