@@ -1,0 +1,22 @@
+il faut faire une classe qui correspondra à un dictionnaire ordonné
+ca doit gerer les choses suivantes:
+
+--1) dictionnaire = Dictionnaire() = dictionnaire vide
+--2) dictionnaire = Dictionnaire(dictionnaire2) = copie le dictionnaire2 dans dictionnaire
+--3) dictionnaire = Dictionnaire(cle=valeur, cle=valeur, cle=valeur)
+4) clé et valeurs liées, si je del une clé, ca del la valeur
+--5) print(dictionnaire[clé])
+6) dictionnaire[clé] = valeur ==> si la clé existe, on modifie la valeur, sinon on crée la valeur
+7) del dictionnaire[clé]
+--8) ca doit gerer clé in dictionnaire
+--9) ca doit gerer len(dictionnaire)
+--10) ca doit gerer print(dictionnaire) => {clé: valeur, clé: valeur}
+11) dictionnaire.sort() = pareil que pour une liste
+12) dictionnaire.reverse() = pareil que pour une liste, en fonction des clés
+--13) ca doit gerer for cle in dictionnaire:
+--14) ca doit gerer dictionnaire.keys() => pareil que list
+--15) idem pour dictionnaire.values()
+--16) idem pour dictionnaire.items()
+--17) ca doit gerer d1 + d2 = d1.union(d2)
+
+https://openclassrooms.com/fr/courses/235344-apprenez-a-programmer-en-python/233322-tp-realisez-un-dictionnaire-ordonne
