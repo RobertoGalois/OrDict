@@ -1,7 +1,7 @@
 # OrDict
 
 ## Introduction:
-This class is a combination of dict class and list class.
+This class is a combination of dict class and list class. It's an exercice I did to learn Python's Object Oriented programmation.
 It works like a dict, but can be ordered by keys or by values.
 Its attributes are:
  
