@@ -172,7 +172,7 @@ class OrDict:
 			self._dKeys = list(map(lambda el : ((el[0], el[1]) if el[1] < indx else (el[0], el[1] - 1)), self._dKeys))
 			del self._dValues[indx]
 		else:
-			raise KeyError(pKey)
+			raise KeyError('No key [{0}] in the OrDict here'.format(pKey))
 
 
 	#------------------
@@ -206,7 +206,22 @@ class OrDict:
 		return self
 
 	def pop(self, pKey):
-		pass
+		"""Another way to delete a key in the OrDict.
+		   But unlike
+		   del myOrDict['key']
+		   which returns None,
+		   here,
+		   myOrDict.pop('key')
+		   will return the value of the deleted key, exactly like in list class
+		"""
+		if (pKey in self.keys()):
+			indx = [el[1] for el in self._dKeys if el[0] == pKey][0]
+			ret = self._dValues[indx]
+			del self[pKey]
+			return ret
+		else:
+			raise KeyError('No key [{0}] in the OrDict here'.format(pKey))
+
 
 if (__name__ == '__main__'):
 	o = OrDict({'test': 'caca', 'addr': 'chezy', 'nombre': 'cinquante-quatre'}, moi='le meilleur', toi='le nul')
@@ -214,4 +229,6 @@ if (__name__ == '__main__'):
 	o3 = o + o2
 	test = OrDict({'zorro': 42, 'Marcel': 34, 'Abdul': 56, 'Victor': 3, 'Jean-Louis': 1})
 
-	print(test.dValues)
+	print(test)
+	print(test.pop('orro'))
+	print(test)
