@@ -1,10 +1,6 @@
 #!/usr/bin/python3.7
 # -*-coding:utf-8 -*
 
-#reste à faire:
-#- faire le 'bidule' in o
-#- revoir TOUS les objectifs !
-
 def newRange(pStart, pSteps):
 	return range(pStart, pStart + pSteps)
 
@@ -73,12 +69,23 @@ class OrDict:
 	#-----------------------------
 	def __getitem__(self, pKey):
 		try:
-			return self._dValues[self._dKeys.index(pKey)]
+			return self._dValues[self.keys().index(pKey)]
 		except ValueError:
 			raise ValueError("'{0}' is not in OrDict".format(pKey))
 
+	def __setitem__(self, pKey, pValue):
+		indx = [el[1] for el in self._dKeys if el[0] == pKey]
+
+		if (len(indx) == 0):
+			indx = len(self._dValues)
+			self._dKeys.append((pKey, indx))
+			self._dValues.append(pValue)
+
+		else:
+			self._dValues[indx[0]] = pValue
+
 	def items(self):
-		return list(zip(self.keys(), self._dValues))
+		return list(zip(self.keys(), [ self._dValues[el[1]] for el in self._dKeys ]))
 
 	#--------------------------------
 	#--__specialsMeths__ MANAGEMENT |
@@ -103,12 +110,41 @@ class OrDict:
 	def __iter__(self):
 		return OrDictIterator(self)
 
+	def __delitem__(self, pKey):
+		if (pKey in self.keys()):
+			indx = [el[1] for el in self._dKeys if el[0] == pKey][0]
+			self._dKeys = [el for el in self._dKeys if el[0] != pKey]
+			self._dKeys = list(map(lambda el : ((el[0], el[1]) if el[1] < indx else (el[0], el[1] - 1)), self._dKeys))
+			del self._dValues[indx]
+		else:
+			raise KeyError(pKey)
 
-o = OrDict({'test': 'caca', 'addr': 'chezy', 54: 'cinquante-quatre'}, moi=42, toi=24)
+
+	#------------------
+	#-- Class Methods |
+	#------------------
+	def sortByKeys(self):
+		self._dKeys = sorted(self._dKeys, key=lambda tupl: tupl[0])
+		return self
+
+	def sortByValues(self):
+		self._dKeys = sorted(self._dKeys, key=lambda tupl: self._dValues[tupl[1]])
+		return self
+
+	def reverse(self):
+		self._dKeys  = self._dKeys[::-1]
+		return self
+
+
+
+o = OrDict({'test': 'caca', 'addr': 'chezy', 'nombre': 'cinquante-quatre'}, moi='le meilleur', toi='le nul')
 o2 = OrDict({'salut' : 'toi', 'comment tu' : 'vas ?'})
 o3 = o + o2
+test = OrDict({'zorro': 42, 'Marcel': 34, 'Abdul': 56, 'Victor': 3, 'Jean-Louis': 1})
 
-print(o3)
-print(o3.dKeys)
-print(o3.dValues)
-print(o3['salut'])
+print(test)
+del test['zorro']
+print(test)
+del test['Victor']
+print(test.sortByKeys())
+
